@@ -13,6 +13,12 @@ shinyUI(fluidPage(theme = "sandstone.css",
 			
 	titlePanel("Local Authority Deprivation Explorer"),
 	
+	sidebarPanel(
+	  selectInput("lad_name", "Local Authority:",
+	              get_lad_list(),
+	              selected = "Harrow")
+	),
+	
 	mainPanel(
 	      tabsetPanel(id="tabset",
 	        tabPanel("Map", leafletOutput("lsoa_map")),

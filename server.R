@@ -7,11 +7,9 @@
 # Define server logic required to plot various variables against mpg
 shinyServer(function(input, output) {
   
-  selected_lad = reactiveValues(lad_name="Harrow")
-  
 	output$lsoa_data = renderDataTable({
 	  withProgress(message = 'Loading LSOA data table',{
-	    table = make_data_table(selected_lad$lad_name)
+	    table = make_data_table(input$lad_name)
 	    datatable(table,
         style = 'bootstrap',
 	      rownames = FALSE,
@@ -21,7 +19,7 @@ shinyServer(function(input, output) {
 	
 	output$lsoa_map = renderLeaflet({
 	  withProgress(message = 'Generating interactive LSOA map...',
-	               make_choropleth_map(selected_lad$lad_name)
+	               make_choropleth_map(input$lad_name)
 	  )
 	})
 	
