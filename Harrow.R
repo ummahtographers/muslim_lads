@@ -51,8 +51,11 @@ make_choropleth_map = function(area){
   child_pal = colorBin("Purples", area_lsoa_map$Income.Deprivation.Affecting.Children.Index..IDACI..Decile..where.1.is.most.deprived.10..of.LSOAs., n=10, pretty = FALSE)
   muslim_pal = colorBin("Greens", area_lsoa_map$muslim_decile, 10, pretty = FALSE)
   
+  mosques = read.csv("data/mosques.csv")
+  
   choropleth_map = leaflet(area_lsoa_map) %>% 
     addProviderTiles("Stamen.TonerLite", options = providerTileOptions(noWrap = TRUE)) %>%
+    addMarkers(~long, ~lat, popup = ~as.character(info), data=mosques) %>%
     addPolygons(stroke = TRUE, 
                 smoothFactor = 1, 
                 fillOpacity = 0.7, 
@@ -105,7 +108,8 @@ make_choropleth_map = function(area){
       baseGroups=c("IMD", "Health", "Education", "Housing", "Child Poverty", "Muslim %"),
       position = "topleft",
       options = layersControlOptions(collapsed = FALSE)
-    )
+    ) %>%
+    setView(lng=mean(area_lsoa_map@bbox["x",]), lat=mean(area_lsoa_map@bbox["y",]), zoom=12)
   return(choropleth_map)
 }
 
