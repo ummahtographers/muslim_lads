@@ -34,11 +34,10 @@ make_popup_messages = function(lsoa_map){
                           "<b>Housing Deprivation Decile: </b>", lsoa_map$Barriers.to.Housing.and.Services.Decile..where.1.is.most.deprived.10..of.LSOAs.,"<br>",
                           "<b>Income Deprivation Decile: </b>", lsoa_map$Income.Decile..where.1.is.most.deprived.10..of.LSOAs.,"<br>",
                           "<b>Child Poverty (IDACI) Decile: </b>", lsoa_map$Income.Deprivation.Affecting.Children.Index..IDACI..Decile..where.1.is.most.deprived.10..of.LSOAs.,"<br>",
-                          "<b>Muslim Population Decile (%): </b>",lsoa_map$muslim_decile," (",round(lsoa_map$muslim/lsoa_map$total,2)*100,"%)<br>",
-                          "<b>Total Population: </b>",lsoa_map$Total.population..mid.2012..excluding.prisoners.,"<br>")
+                          "<b>Total Population: </b>",lsoa_map$Total.population..mid.2012..excluding.prisoners.,"<br>",
+                          "<b>Muslim Population (x% of total): </b>",round(lsoa_map$muslim/lsoa_map$total,2)*100,"%<br>")
   return(popup_messages)  
 }
-
 
 make_choropleth_map = function(area){
   area_lsoa_map = read_geojson(area)

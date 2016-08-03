@@ -165,7 +165,10 @@ shinyUI(fluidPage(theme = "sandstone.css",
 	                   "Percent None",                                                                                  
 	                   "Percent Not Stated"),
 	              selected = "Index of Multiple Deprivation IMD Score"
-	  )
+	  ),
+	  tags$div(
+	    HTML("<img src='http://www.mcb.org.uk/wp-content/uploads/2014/03/mcb_logo.jpg' alt='Muslim Council of Britain' width=90%/>")
+	    )
 	  
 	),
 	
