@@ -1,6 +1,7 @@
 library(rgdal)
 library(dplyr)
 library(leaflet)
+library(ggplot2)
 
 make_area_subset_geojson = function(area){
   lsoa_map = readOGR("data", "england_lsoa_2011_sgen_clipped", verbose=FALSE, stringsAsFactors=FALSE)
@@ -103,7 +104,7 @@ make_choropleth_map = function(area){
                 group="Muslim %") %>%
     addLayersControl(
       baseGroups=c("IMD", "Health", "Education", "Housing", "Child Poverty", "Muslim %"),
-      position = "bottomleft",
+      position = "topleft",
       options = layersControlOptions(collapsed = FALSE)
     )
   return(choropleth_map)
@@ -113,6 +114,14 @@ make_data_table = function(area){
   area_lsoa_map = read_geojson(area)
   data = area_lsoa_map@data
   colnames(data) = gsub("\\."," ",colnames(data)) %>% gsub("  "," ",.) %>% trimws()
+  data = data %>% 
+    mutate(`Percent Christian` = round((christian/total)*100,1),
+           `Percent Buddhist` = round((buddhist/total)*100,1),
+           `Percent Hindu` = round((hindu/total)*100,1),
+           `Percent Jewish` = round((jewish/total)*100,1),
+           `Percent Muslim` = round((muslim/total)*100,1),
+           `Percent None` = round((none/total)*100,1),
+           `Percent Not Stated` = round((not_stated/total)*100,1))
   # clean up colum names and columns to return
   return(data %>% arrange(name))
 }
@@ -122,3 +131,16 @@ get_lad_list = function(){
   return(lad_list)
 }
 
+make_scatter_plot = function(area,xvar,yvar){
+  lsoa_data = make_data_table(area)
+  lsoa_data$Population = lsoa_data$total / 1500
+  plot = ggplot(lsoa_data, aes(x=get(xvar), y=get(yvar))) +
+    geom_point(alpha=0.6, aes(colour=get("Percent Muslim"),size=total)) +
+    xlab(xvar) +
+    ylab(yvar) +
+    stat_smooth(aes(weight=total), method='lm', colour="darkred", size=0.5, linetype=2, alpha=0.5, se=FALSE) +
+    theme_minimal() +
+    scale_color_distiller("Percent Muslim", palette="YlGn", direction=1) +
+    scale_size_continuous("LSOA Population")
+  return(plot)
+}

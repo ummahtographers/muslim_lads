@@ -19,7 +19,14 @@ shinyServer(function(input, output) {
 	
 	output$lsoa_map = renderLeaflet({
 	  withProgress(message = 'Generating interactive LSOA map...',
-	               make_choropleth_map(input$lad_name)
+	    make_choropleth_map(input$lad_name)
+	  )
+	})
+	
+	output$scatter = renderPlot({
+	  withProgress(message = 'Generating interactive LSOA map...',
+	    make_scatter_plot(input$lad_name, input$xvar, input$yvar)
+	    
 	  )
 	})
 	
