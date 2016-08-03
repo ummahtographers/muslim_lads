@@ -24,7 +24,7 @@ server = shinyServer(function(input, output) {
   
   output$lsoa_map = renderLeaflet({
     withProgress(message = 'Generating interactive LSOA map...',
-                 make_choropleth_map(input$lad_name)
+                 make_choropleth_map(input$lad_name, input$mosque_markers)
     )
   })
   
@@ -46,15 +46,19 @@ ui = shinyUI(fluidPage(theme = "sandstone.css",
                     selectInput("lad_name", "Local Authority:",
                                 get_lad_list(),
                                 selected = "Harrow"),
-                    selectInput("xvar", "X variable for scatter plot",
+                    
+                    radioButtons("mosque_markers", "Show mosque markers on map:",list(TRUE,FALSE),selected=FALSE),
+                    
+                    selectInput("xvar", "X variable for scatter plot:",
                                 get_var_list(),
                                 selected = "Percent Muslim"
                     ),
                     
-                    selectInput("yvar", "Y variable for scatter plot",
+                    selectInput("yvar", "Y variable for scatter plot:",
                                 get_var_list(),
                                 selected = "Index of Multiple Deprivation IMD Score"
                     ),
+                    
                     tags$div(
                       HTML("<img src='mcb_logo.jpg' alt='Muslim Council of Britain' width=90%/>
                            <p><p>For details of deprivation variables <a href='https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/464597/English_Indices_of_Deprivation_2015_-_Research_Report.pdf'>click here</a>")

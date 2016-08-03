@@ -39,7 +39,7 @@ make_popup_messages = function(lsoa_map){
   return(popup_messages)  
 }
 
-make_choropleth_map = function(area){
+make_choropleth_map = function(area, mosque_markers){
   area_lsoa_map = read_geojson(area)
   
   popup_message = make_popup_messages(area_lsoa_map)
@@ -51,11 +51,9 @@ make_choropleth_map = function(area){
   child_pal = colorBin("Purples", area_lsoa_map$Income.Deprivation.Affecting.Children.Index..IDACI..Decile..where.1.is.most.deprived.10..of.LSOAs., n=10, pretty = FALSE)
   muslim_pal = colorBin("Greens", area_lsoa_map$muslim_decile, 10, pretty = FALSE)
   
-  mosques = read.csv("data/mosques.csv")
   
   choropleth_map = leaflet(area_lsoa_map) %>% 
     addProviderTiles("Stamen.TonerLite", options = providerTileOptions(noWrap = TRUE)) %>%
-    addMarkers(~long, ~lat, popup = ~as.character(info), data=mosques) %>%
     addPolygons(stroke = TRUE, 
                 smoothFactor = 1, 
                 fillOpacity = 0.7, 
@@ -110,6 +108,11 @@ make_choropleth_map = function(area){
       options = layersControlOptions(collapsed = FALSE)
     ) %>%
     setView(lng=mean(area_lsoa_map@bbox["x",]), lat=mean(area_lsoa_map@bbox["y",]), zoom=12)
+  if(mosque_markers){
+    mosques = read.csv("data/mosques.csv")
+    choropleth_map = choropleth_map %>% 
+      addMarkers(~long, ~lat, popup = ~as.character(info), data=mosques)
+  }
   return(choropleth_map)
 }
 
