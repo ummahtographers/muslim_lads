@@ -134,6 +134,11 @@ get_lad_list = function(){
   return(lad_list)
 }
 
+get_var_list = function(){
+  lsoa_data = make_data_table("harrow")
+  return(colnames(lsoa_data))
+}
+
 make_scatter_plot = function(area,xvar,yvar){
   lsoa_data = make_data_table(area)
   lsoa_data$Population = lsoa_data$total / 1500
