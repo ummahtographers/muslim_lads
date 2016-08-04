@@ -111,7 +111,7 @@ make_choropleth_map = function(area, mosque_markers){
     mosques = read.csv("data/mosques.csv",stringsAsFactors=FALSE)
     mosques$info = mosques$info %>% gsub("\\[.*\\]","",.) %>% gsub("\\*","",.) %>% trimws()
     choropleth_map = choropleth_map %>% 
-      addMarkers(~long, ~lat, popup = ~as.character(info), data=mosques, clusterOptions = markerClusterOptions())
+      addMarkers(~long, ~lat, popup = ~as.character(info), data=mosques, clusterOptions=markerClusterOptions())
   }
   return(choropleth_map)
 }

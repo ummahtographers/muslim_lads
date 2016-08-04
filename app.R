@@ -47,7 +47,9 @@ ui = shinyUI(fluidPage(theme = "sandstone.css",
                                 get_lad_list(),
                                 selected = "Harrow"),
                     
-                    radioButtons("mosque_markers", "Show mosque markers on map:",list(TRUE,FALSE),selected=FALSE),
+                    radioButtons("mosque_markers", "Show mosque markers on map:",
+                                 list(TRUE,FALSE),
+                                 selected=TRUE),
                     
                     selectInput("xvar", "X variable for scatter plot:",
                                 get_var_list(),
