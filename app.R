@@ -62,7 +62,7 @@ ui = shinyUI(fluidPage(theme = "sandstone.css",
                     ),
                     
                     tags$div(
-                      HTML("<img src='mcb_logo.jpg' alt='Muslim Council of Britain' width=90%/>
+                      HTML("<p>Source code available <a href='https://github.com/ummahtographers/muslim_lads'>here</a>
                            <p><p>For details of deprivation variables <a href='https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/464597/English_Indices_of_Deprivation_2015_-_Research_Report.pdf'>click here</a>")
                     )
                     
