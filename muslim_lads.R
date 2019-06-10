@@ -18,7 +18,7 @@ read_geojson = function(area){
   area_lsoa_map = NULL
   tryCatch(
     {
-      area_lsoa_map = readOGR(dsn=paste0("data/",tolower(area),"_lsoa_map.geojson"), layer="OGRGeoJSON", verbose=FALSE, stringsAsFactors=FALSE)
+      area_lsoa_map = readOGR(dsn=paste0("data/",tolower(area),"_lsoa_map.geojson"), verbose=FALSE, stringsAsFactors=FALSE)
     }, error=function(cond){
       area_lsoa_map = make_area_subset_geojson(area)
     }, finally={} 
